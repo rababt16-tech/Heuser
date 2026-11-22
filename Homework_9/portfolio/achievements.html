@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trophy Mix · Achievements</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Bungee&family=Bungee+Shade&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/wrapper.css">
+  <style>
+    body {
+      --page-bg: #3A1F5C; --page-dot: #5a3888;
+      --w1: #C8F560; --w2: #93C631; --w-ink: #1A0F2E;
+      --ribbon: #FF4FA3; --ribbon-ink: #1A0F2E;
+      --burst: #FF6B2C; --meter: #FF4FA3;
+      --bin: #FF6B2C; --bin-lid: #C8F560; --hint: #C8F560;
+    }
+  </style>
+</head>
+<body>
+  <main class="unwrap">
+    <article class="wrapper" id="wrapper">
+      <div class="tear" id="tear">✂ · · · tear here · · ·</div>
+
+      <div class="front">
+        <div>
+          <h1 class="brand">TROPHY<br>MIX</h1>
+          <span class="flavor">assorted wins · collect them all</span>
+          <p class="netwt">4 collectibles inside · hover or tap to flip</p>
+          <p class="lead">Things I'm proud of, in school and outside it.</p>
+        </div>
+        <div class="burst"><span>4<br>INSIDE</span></div>
+      </div>
+
+      <div class="contents">
+        <div class="cards">
+          <button class="card" type="button">
+            <span class="card-inner">
+              <span class="card-face card-front"><span class="num">01</span><span><span class="ct"><span class="todo">[Achievement 1]</span></span><span class="year"><span class="todo">[YEAR]</span></span></span></span>
+              <span class="card-face card-back"><span><strong><span class="todo">[short title]</span></strong><span class="todo">[One or two sentences on what happened and why it matters to you.]</span></span></span>
+            </span>
+          </button>
+          <button class="card" type="button">
+            <span class="card-inner">
+              <span class="card-face card-front"><span class="num">02</span><span><span class="ct"><span class="todo">[Achievement 2]</span></span><span class="year"><span class="todo">[YEAR]</span></span></span></span>
+              <span class="card-face card-back"><span><strong><span class="todo">[short title]</span></strong><span class="todo">[One or two sentences on what happened and why it matters to you.]</span></span></span>
+            </span>
+          </button>
+          <button class="card" type="button">
+            <span class="card-inner">
+              <span class="card-face card-front"><span class="num">03</span><span><span class="ct"><span class="todo">[Achievement 3]</span></span><span class="year"><span class="todo">[YEAR]</span></span></span></span>
+              <span class="card-face card-back"><span><strong><span class="todo">[short title]</span></strong><span class="todo">[One or two sentences on what happened and why it matters to you.]</span></span></span>
+            </span>
+          </button>
+          <button class="card" type="button">
+            <span class="card-inner">
+              <span class="card-face card-front"><span class="num">04</span><span><span class="ct"><span class="todo">[Achievement 4]</span></span><span class="year"><span class="todo">[YEAR]</span></span></span></span>
+              <span class="card-face card-back"><span><strong><span class="todo">[short title]</span></strong><span class="todo">[One or two sentences on what happened and why it matters to you.]</span></span></span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <span class="bin-hint">done? toss it →</span>
+  <button class="bin" id="bin" type="button" aria-label="Toss the wrapper in the bin and go back to the vending machine">
+    <span class="bin-lid"></span>
+    <span class="bin-body"><span>TOSS<small>back to machine</small></span></span>
+  </button>
+
+  <script src="js/wrapper.js"></script>
+</body>
+</html>

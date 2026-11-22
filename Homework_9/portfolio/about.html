@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rabab Bites · About Me</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Bungee&family=Bungee+Shade&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/wrapper.css">
+  <style>
+    body {
+      --page-bg: #1A0F2E; --page-dot: #3A1F5C;
+      --w1: #FF4FA3; --w2: #FF6B2C; --w-ink: #1A0F2E;
+      --ribbon: #1A0F2E; --ribbon-ink: #C8F560;
+      --burst: #C8F560; --meter: #FF4FA3;
+      --bin: #C8F560; --bin-lid: #FF4FA3; --hint: #C8F560;
+    }
+  </style>
+</head>
+<body>
+  <main class="unwrap">
+    <article class="wrapper" id="wrapper">
+      <div class="tear" id="tear">✂ · · · tear here · · ·</div>
+
+      <div class="front">
+        <div>
+          <h1 class="brand">RABAB<br>BITES</h1>
+          <span class="flavor">original flavor · about me</span>
+          <p class="netwt">net wt. 1 Rabab · made in <span class="todo">[your city]</span></p>
+          <p class="lead">Hi, I'm Rabab. <span class="todo">[2–3 sentences: what you study or do, what you're curious about, and one thing people should know about you.]</span></p>
+        </div>
+        <div class="burst"><img src="assets/me.jpg" alt="Photo of Rabab" onerror="this.onerror=null;this.src='assets/me-placeholder.svg'"></div>
+      </div>
+
+      <div class="contents">
+        <section class="label" aria-label="Nutrition facts">
+          <h2 class="nf-title">Nutrition Facts</h2>
+          <div class="row"><span>1 serving per lifetime</span></div>
+          <div class="row"><b>Serving size</b><b>1 Rabab</b></div>
+          <div class="rule thick"></div>
+          <div class="small"><b>Amount per serving</b></div>
+          <div class="big-row"><span>Curiosity</span><span>9000</span></div>
+          <div class="rule mid"></div>
+          <div class="small" style="text-align:right"><b>% Daily Value*</b></div>
+          <div class="dv"><b><span class="todo">[skill or interest 1]</span></b><span class="bar" style="--v:95%"></span><span class="pct">95%</span></div>
+          <div class="dv"><span><span class="todo">[skill or interest 2]</span></span><span class="bar" style="--v:85%"></span><span class="pct">85%</span></div>
+          <div class="dv"><span><span class="todo">[skill or interest 3]</span></span><span class="bar" style="--v:80%"></span><span class="pct">80%</span></div>
+          <div class="dv"><span><span class="todo">[skill or interest 4]</span></span><span class="bar" style="--v:70%"></span><span class="pct">70%</span></div>
+          <div class="dv"><span>Sleep</span><span class="bar" style="--v:12%"></span><span class="pct">12%</span></div>
+          <div class="rule thick"></div>
+          <p class="small"><b>Ingredients:</b> <span class="todo">[your school / program, hobbies, the things that make you you]</span>. <b>May contain traces of <span class="todo">[a guilty pleasure]</span>.</b></p>
+          <p class="small">*Percent Daily Values are self-reported and slightly biased.</p>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <span class="bin-hint">done? toss it →</span>
+  <button class="bin" id="bin" type="button" aria-label="Toss the wrapper in the bin and go back to the vending machine">
+    <span class="bin-lid"></span>
+    <span class="bin-body"><span>TOSS<small>back to machine</small></span></span>
+  </button>
+
+  <script src="js/wrapper.js"></script>
+</body>
+</html>

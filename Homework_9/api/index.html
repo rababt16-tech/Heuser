@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Assembly · Rabab's Server</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=Bungee&family=Caveat:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assembly.css">
+</head>
+<body>
+  <a class="home-link" href="/">← Home</a>
+
+  <main class="page">
+    <section class="intro">
+      <span class="kicker">● LIVE · WORLD BANK API + WIKIPEDIA API</span>
+      <h1 class="title">THE ASSEMBLY</h1>
+      <p class="sub">Every economy the World Bank tracks, seated in one hall. <span id="seatCount">Counting delegations…</span></p>
+
+      <!-- Required: the idea behind this page, in 2–3 sentences -->
+      <aside class="concept">
+        <h2>Why an assembly hall?</h2>
+        <p>Instead of a table of countries, this page turns live World Bank data into a Model UN General Assembly, where every country gets exactly one seat no matter how big it is, just like one country, one vote. Click a seat, call on a delegate by name, or let the chair draw your country like a MUN allocation, and their placard rises with a live briefing built from the World Bank and Wikipedia.</p>
+      </aside>
+    </section>
+
+    <section class="controls" aria-label="Find a delegation">
+      <form class="search" id="searchForm" autocomplete="off">
+        <label for="search" class="visually-hidden">Call on a delegate</label>
+        <input id="search" list="countryList" placeholder="Call on a delegate… e.g. Colombia" disabled>
+        <datalist id="countryList"></datalist>
+        <button type="submit" class="btn btn-lime" disabled>Recognize</button>
+      </form>
+      <button class="btn btn-pink" id="drawBtn" type="button" disabled>🎲 Draw my country</button>
+    </section>
+
+    <div class="regions" id="regions" role="group" aria-label="Filter by regional group"></div>
+
+    <section class="chamber">
+      <div class="hall" id="hall">
+        <svg id="hemicycle" viewBox="0 0 1000 560" role="img" aria-label="Assembly hall seating chart"></svg>
+
+        <!-- the podium and the placard that rises from it -->
+        <div class="podium" aria-hidden="true">
+          <div class="gavel" id="gavel">⚖</div>
+          <div class="podium-top">THE CHAIR</div>
+        </div>
+        <div class="placard" id="placard" aria-live="polite">
+          <img id="placardFlag" alt="">
+          <span id="placardName">Awaiting a delegate</span>
+        </div>
+
+        <!-- loading + error states -->
+        <div class="state" id="loading">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <p>Delegates are taking their seats…</p>
+          <small>Fetching live data from the World Bank</small>
+        </div>
+        <div class="state error" id="error" hidden>
+          <p class="big">SESSION ADJOURNED</p>
+          <p>We couldn't reach the World Bank just now. Check your internet connection and try again.</p>
+          <button class="btn btn-lime" id="retryBtn" type="button">Try again</button>
+        </div>
+
+        <div class="tooltip" id="tooltip" hidden></div>
+      </div>
+
+      <aside class="briefing" id="briefing" aria-live="polite">
+        <div class="folder-tab">DELEGATE BRIEFING</div>
+        <div class="brief-empty" id="briefEmpty">
+          <p class="big">No delegate recognized yet.</p>
+          <p>Click any seat in the hall, search for a country, or press <b>Draw my country</b>.</p>
+        </div>
+        <div class="brief-body" id="briefBody" hidden>
+          <div class="brief-head">
+            <img id="briefFlag" alt="">
+            <div>
+              <h2 id="briefName"></h2>
+              <span class="region-chip" id="briefRegion"></span>
+            </div>
+          </div>
+          <dl class="stats">
+            <div><dt>Capital</dt><dd id="statCapital"></dd></div>
+            <div><dt>Population</dt><dd id="statPop"></dd></div>
+            <div><dt>Income group</dt><dd id="statIncome"></dd></div>
+            <div><dt>Coordinates</dt><dd id="statCoords"></dd></div>
+          </dl>
+          <div class="notes">
+            <h3>Briefing notes <small>from Wikipedia</small></h3>
+            <div id="notes"></div>
+          </div>
+        </div>
+        <div class="speakers">
+          <h3>Speakers' list</h3>
+          <ol id="speakers"><li class="muted">Empty. Recognize a delegate.</li></ol>
+        </div>
+      </aside>
+    </section>
+
+    <p class="credits">Data: <a href="https://data.worldbank.org/" target="_blank" rel="noopener">World Bank Open Data</a> · <a href="https://en.wikipedia.org/" target="_blank" rel="noopener">Wikipedia</a> · flags by <a href="https://flagcdn.com/" target="_blank" rel="noopener">flagcdn</a></p>
+  </main>
+
+  <script src="assembly.js"></script>
+</body>
+</html>

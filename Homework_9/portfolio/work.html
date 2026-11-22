@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Crunch · My Work</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Bungee&family=Bungee+Shade&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/wrapper.css">
+  <style>
+    body {
+      --page-bg: #FF6B2C; --page-dot: #D9501A;
+      --w1: #6B3FA0; --w2: #3A1F5C; --w-ink: #C8F560;
+      --ribbon: #FF4FA3; --ribbon-ink: #1A0F2E;
+      --burst: #C8F560; --meter: #6B3FA0;
+      --bin: #3A1F5C; --bin-lid: #C8F560; --hint: #1A0F2E;
+    }
+    .bin-body { color: #C8F560; }
+  </style>
+</head>
+<body>
+  <main class="unwrap">
+    <article class="wrapper" id="wrapper">
+      <div class="tear" id="tear">✂ · · · tear here · · ·</div>
+
+      <div class="front">
+        <div>
+          <h1 class="brand">PROJECT<br>CRUNCH</h1>
+          <span class="flavor">extra crunchy · my work</span>
+          <p class="netwt">a bar of things I've made</p>
+          <p class="lead"><span class="todo">[One sentence on the kind of work you do or like doing.]</span></p>
+        </div>
+        <div class="burst"><span>MADE<br>BY<br>HAND</span></div>
+      </div>
+
+      <div class="contents">
+        <h2 class="section-title">What's inside</h2>
+        <div class="pieces">
+          <div class="piece">
+            <h3><span class="todo">[Project 1 name]</span></h3>
+            <p><span class="todo">[1–2 sentences: what it is, what you built or did, and what you learned.]</span></p>
+            <span class="chip"><span class="todo">[tool]</span></span><span class="chip"><span class="todo">[tool]</span></span>
+          </div>
+          <div class="piece">
+            <h3><span class="todo">[Project 2 name]</span></h3>
+            <p><span class="todo">[1–2 sentences: what it is, what you built or did, and what you learned.]</span></p>
+            <span class="chip"><span class="todo">[tool]</span></span><span class="chip"><span class="todo">[tool]</span></span>
+          </div>
+          <div class="piece">
+            <h3><span class="todo">[Project 3 name]</span></h3>
+            <p><span class="todo">[1–2 sentences: what it is, what you built or did, and what you learned.]</span></p>
+            <span class="chip"><span class="todo">[tool]</span></span><span class="chip"><span class="todo">[tool]</span></span>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <span class="bin-hint">done? toss it →</span>
+  <button class="bin" id="bin" type="button" aria-label="Toss the wrapper in the bin and go back to the vending machine">
+    <span class="bin-lid"></span>
+    <span class="bin-body"><span>TOSS<small>back to machine</small></span></span>
+  </button>
+
+  <script src="js/wrapper.js"></script>
+</body>
+</html>

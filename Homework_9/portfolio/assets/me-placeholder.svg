@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#F4EAD5"/>
+  <circle cx="200" cy="160" r="78" fill="#3A1F5C"/>
+  <path d="M60 400c0-90 62-150 140-150s140 60 140 150z" fill="#3A1F5C"/>
+  <text x="200" y="385" font-family="monospace" font-size="26" fill="#F4EAD5" text-anchor="middle">PUT me.jpg HERE</text>
+</svg>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Future Fizz · Aspirations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Bungee&family=Bungee+Shade&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/wrapper.css">
+  <style>
+    body {
+      --page-bg: #C8F560; --page-dot: #a9d84a;
+      --w1: #FF4FA3; --w2: #7A2E8E; --w-ink: #F4EAD5;
+      --ribbon: #C8F560; --ribbon-ink: #1A0F2E;
+      --burst: #F4EAD5; --meter: #FF4FA3;
+      --bin: #FF4FA3; --bin-lid: #3A1F5C; --hint: #3A1F5C;
+    }
+    .unwrap { z-index: 1; }
+    .pieces { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .wrapper { border-radius: 26px; }
+    .wrapper::before, .wrapper::after { display: none; }
+    .tear { border-radius: 26px 26px 0 0; top: 0; }
+    .tear::before { display: none; }
+  </style>
+</head>
+<body>
+  <div class="bubbles" aria-hidden="true"></div>
+  <main class="unwrap">
+    <article class="wrapper" id="wrapper">
+      <div class="tear" id="tear">✂ · · · pull tab · · ·</div>
+
+      <div class="front">
+        <div>
+          <h1 class="brand">FUTURE<br>FIZZ</h1>
+          <span class="flavor">ambition flavor · what I want to create</span>
+          <p class="netwt">330 ml of plans · shake well · best before: never</p>
+          <p class="lead">The things I want to build next, and the person I want to be building them.</p>
+        </div>
+        <div class="burst"><span>100%<br>FIZZ</span></div>
+      </div>
+
+      <div class="contents">
+        <h2 class="section-title">Ingredients of the future</h2>
+        <div class="pieces">
+          <div class="piece">
+            <h3><span class="todo">[Aspiration 1]</span></h3>
+            <p><span class="todo">[What you want to create or become, and why.]</span></p>
+          </div>
+          <div class="piece">
+            <h3><span class="todo">[Aspiration 2]</span></h3>
+            <p><span class="todo">[What you want to create or become, and why.]</span></p>
+          </div>
+          <div class="piece">
+            <h3><span class="todo">[Aspiration 3]</span></h3>
+            <p><span class="todo">[What you want to create or become, and why.]</span></p>
+          </div>
+          <div class="piece">
+            <h3><span class="todo">[Aspiration 4]</span></h3>
+            <p><span class="todo">[What you want to create or become, and why.]</span></p>
+          </div>
+        </div>
+        <section class="label" aria-label="Recycling information">
+          <div class="row"><b>Recycle me</b><span>Toss this can in the bin to get back to the machine.</span></div>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <span class="bin-hint">done? toss it →</span>
+  <button class="bin" id="bin" type="button" aria-label="Toss the can in the bin and go back to the vending machine">
+    <span class="bin-lid"></span>
+    <span class="bin-body"><span>TOSS<small>back to machine</small></span></span>
+  </button>
+
+  <script src="js/wrapper.js"></script>
+</body>
+</html>

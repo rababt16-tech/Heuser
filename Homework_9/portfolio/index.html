@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RABAB-O-MATIC · Rabab's Portfolio</title>
+  <meta name="description" content="Rabab's portfolio, served by a vending machine.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Bungee&family=Bungee+Shade&family=Caveat:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/machine.css">
+</head>
+<body>
+  <div class="wall" aria-hidden="true"></div>
+  <div class="floor" aria-hidden="true"></div>
+
+  <main class="stage">
+
+    <!-- THE COIN: Rabab's face is the currency of this machine -->
+    <div class="coin-spot" id="coinSpot">
+      <button class="coin" id="coin" type="button" aria-label="A coin with Rabab's face. Drag it into the coin slot, or press to insert it.">
+        <img src="assets/me.jpg" alt="Photo of Rabab" onerror="this.onerror=null;this.src='assets/me-placeholder.svg'">
+        <svg class="coin-rim" viewBox="0 0 100 100" aria-hidden="true">
+          <defs><path id="rimPath" d="M50,50 m-41,0 a41,41 0 1,1 82,0 a41,41 0 1,1 -82,0"/></defs>
+          <text><textPath href="#rimPath">★ ONE RABAB ★ LEGAL TENDER FOR CURIOSITY ★ 2026</textPath></text>
+        </svg>
+      </button>
+      <p class="hint" id="hint">drag my face<br>into the slot <span class="arrow">→</span></p>
+    </div>
+
+    <!-- THE MACHINE -->
+    <section class="machine" id="machine" aria-label="RABAB-O-MATIC vending machine">
+      <div class="marquee">
+        <div class="bulbs" aria-hidden="true"></div>
+        <div class="mascot"><img src="assets/me.jpg" alt="Rabab, the face on the machine" onerror="this.onerror=null;this.src='assets/me-placeholder.svg'"></div>
+        <div class="brand">RABAB<span>-O-</span>MATIC</div>
+        <div class="tag">fresh portfolio · est. 2026</div>
+      </div>
+
+      <div class="body">
+        <div class="glass" id="glass">
+          <div class="shelf">
+            <div class="slot" data-code="A1">
+              <a class="snack bag" href="about.html" data-bg="#1A0F2E" style="--c1:#FF4FA3;--c2:#FF6B2C;--ink:#1A0F2E">
+                <span class="snack-brand">RABAB<br>BITES</span><span class="snack-flavor">about me</span>
+              </a>
+              <div class="coil"></div>
+              <span class="price">A1 · ABOUT</span>
+            </div>
+            <div class="slot" data-code="A2">
+              <a class="snack bar" href="work.html" data-bg="#FF6B2C" style="--c1:#6B3FA0;--c2:#3A1F5C;--ink:#C8F560">
+                <span class="snack-brand">PROJECT CRUNCH</span><span class="snack-flavor">my work</span>
+              </a>
+              <div class="coil"></div>
+              <span class="price">A2 · WORK</span>
+            </div>
+          </div>
+          <div class="shelf">
+            <div class="slot" data-code="B1">
+              <a class="snack box" href="achievements.html" data-bg="#3A1F5C" style="--c1:#C8F560;--c2:#93C631;--ink:#1A0F2E">
+                <span class="snack-brand">TROPHY<br>MIX</span><span class="snack-flavor">achievements</span>
+              </a>
+              <div class="coil"></div>
+              <span class="price">B1 · WINS</span>
+            </div>
+            <div class="slot" data-code="B2">
+              <a class="snack can" href="aspirations.html" data-bg="#C8F560" style="--c1:#FF4FA3;--c2:#7A2E8E;--ink:#F4EAD5">
+                <span class="snack-brand">FUTURE<br>FIZZ</span><span class="snack-flavor">aspirations</span>
+              </a>
+              <div class="coil"></div>
+              <span class="price">B2 · FUTURE</span>
+            </div>
+          </div>
+          <div class="shelf">
+            <div class="slot" data-code="C1">
+              <!-- Homework 7 link: replace the href with your live Homework 7 URL -->
+              <a class="snack bag" href="https://YOUR-USERNAME.github.io/Heuser/CS_CRP/Homework_7/" target="_blank" rel="noopener" data-external="true" style="--c1:#F4EAD5;--c2:#D8C49B;--ink:#3A1F5C">
+                <span class="snack-brand">THROW<br>BACK</span><span class="snack-flavor">homework 7</span>
+              </a>
+              <div class="coil"></div>
+              <span class="price">C1 · HW 7</span>
+            </div>
+            <div class="slot" data-code="C2" data-soldout="true">
+              <div class="soldout">SOLD<br>OUT</div>
+              <div class="coil"></div>
+              <span class="price">C2 · FREE TIME</span>
+            </div>
+          </div>
+          <div class="sheen" aria-hidden="true"></div>
+        </div>
+
+        <div class="panel">
+          <div class="led" id="led" role="status" aria-live="polite">
+            <span class="l1" id="led1">INSERT COIN</span>
+            <span class="l2"><span class="scroll" id="led2">◂ DRAG THE COIN INTO THE SLOT ◂</span></span>
+          </div>
+          <div class="keypad" id="keypad" aria-label="Keypad">
+            <button class="key key--letter" data-k="A">A</button>
+            <button class="key key--letter" data-k="B">B</button>
+            <button class="key key--letter" data-k="C">C</button>
+            <button class="key" data-k="1">1</button>
+            <button class="key" data-k="2">2</button>
+            <button class="key" data-k="3">3</button>
+            <button class="key key--clr" data-k="CLR">CLR</button>
+            <button class="key key--ok" data-k="OK">OK</button>
+          </div>
+          <div class="coin-slot" id="slot"><span>COIN</span></div>
+          <div class="coin-return" id="coinReturn" aria-hidden="true"></div>
+          <span class="return-label">change</span>
+        </div>
+
+        <div class="tray" id="tray">
+          <div class="tray-mouth">
+            <a class="tray-item" id="trayItem" href="#" aria-label="Take your item"></a>
+          </div>
+          <div class="flap">PUSH</div>
+        </div>
+      </div>
+      <div class="feet" aria-hidden="true"><i></i><i></i></div>
+    </section>
+
+    <!-- CONCEPT NOTE (required: 2–3 sentences explaining the idea) -->
+    <aside class="note" aria-label="About this website">
+      <h2>why a vending machine?</h2>
+      <p>This portfolio has no menu bar: it's a machine, and you pay with my face. Punch a code into the keypad, watch a part of my story drop off the spiral, and unwrap it like a snack.</p>
+      <p>Leaving a page means tossing the wrapper in the bin, so every page change is a physical act instead of a link in a list.</p>
+    </aside>
+
+  </main>
+
+  <script src="js/machine.js"></script>
+</body>
+</html>

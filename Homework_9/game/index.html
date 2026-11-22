@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pattern Memory</title>
+  <meta name="description" content="Pattern Memory: watch the glowing pads, then repeat the sequence. A Simon-style memory game.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#03080F">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main id="app" data-state="idle">
+    <noscript><p>Pattern Memory needs JavaScript.</p></noscript>
+    <h1 id="title"><svg class="title-emblem" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 16 A10 10 0 0 1 26 16 Q23.5 18 21 16 Q18.5 18 16 16 Q13.5 18 11 16 Q8.5 18 6 16 Z" fill="rgba(63,224,208,0.25)"/><path d="M11 17 C9 21 13 23 11 29"/><path d="M16 17 C14 21 18 23 16 29"/><path d="M21 17 C19 21 23 23 21 29"/><circle cx="12" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="19" cy="9" r="1" fill="currentColor" stroke="none"/></svg>Pattern Memory</h1>
+    <section id="hud">
+      <span class="stat"><span id="round-label">Round</span><span id="round-value">0</span></span>
+      <span class="stat"><span id="score-label">Score</span><span id="score-value">0</span></span>
+      <span class="stat stat-best"><span id="best-label">Best</span><span id="best-value">0</span><span id="best-round">round 0</span></span>
+      <p id="status" aria-live="polite">Press Start (or Enter) to play.</p>
+      <p id="storage-note" hidden>Progress can't be saved in this browser: records last until you close the tab.</p>
+    </section>
+    <div id="board" class="board" tabindex="-1">
+      <button id="pad-0" class="pad pad-green" data-pad="0" aria-label="Green pad (key 1)">1</button>
+      <button id="pad-1" class="pad pad-red" data-pad="1" aria-label="Red pad (key 2)">2</button>
+      <button id="pad-2" class="pad pad-yellow" data-pad="2" aria-label="Yellow pad (key 3)">3</button>
+      <button id="pad-3" class="pad pad-blue" data-pad="3" aria-label="Blue pad (key 4)">4</button>
+    </div>
+    <div id="controls">
+      <button id="start-btn">Start</button>
+      <button id="restart-btn" hidden>Play again</button>
+      <button id="pause-btn" type="button" class="icon-btn" aria-label="Pause game" title="Pause (P)" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg></button>
+      <button id="mute-btn" type="button" class="icon-btn" aria-pressed="false" aria-label="Mute sound" title="Mute sound (M)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="icon-speaker" d="M3 9 H7 L12 5 V19 L7 15 H3 Z" fill="currentColor" fill-opacity="0.25"/><path class="icon-waves" d="M15 9.5 A3.5 3.5 0 0 1 15 14.5"/><path class="icon-waves" d="M17.5 5 A7 7 0 0 1 17.5 19"/><path class="icon-x" d="M16 9 L22 15"/><path class="icon-x" d="M22 9 L16 15"/></svg></button>
+    </div>
+    <div id="gameover-panel" hidden>
+      <p id="gameover-message"></p>
+      <p id="final-score"></p>
+      <p id="gameover-best"></p>
+      <p id="new-high" role="status" hidden>New high score!</p>
+    </div>
+    <div id="data-bar">
+      <span id="records-line">Games played: 0 · Last score: —</span>
+      <button id="reset-btn" type="button" class="btn-ghost" aria-haspopup="dialog" aria-controls="confirm-panel">Reset data</button>
+    </div>
+  </main>
+  <div id="fx-layer" aria-hidden="true"></div>
+  <div id="pause-overlay" class="overlay modal-enter" role="dialog" aria-modal="true" aria-labelledby="pause-title" hidden>
+    <div class="modal-card">
+      <h2 id="pause-title"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg>Paused</h2>
+      <p id="pause-info"></p>
+      <p class="modal-hint">Press P or Esc to resume.</p>
+      <div class="modal-actions modal-stack">
+        <button id="resume-btn" type="button" class="btn-primary">Resume</button>
+        <button id="pause-restart-btn" type="button" class="btn-ghost">Restart</button>
+        <button id="pause-quit-btn" type="button" class="btn-ghost">Quit to menu</button>
+      </div>
+    </div>
+  </div>
+  <div id="confirm-panel" class="overlay modal-enter" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-desc" hidden>
+    <div class="modal-card">
+      <h2 id="confirm-title">Reset saved data?</h2>
+      <p id="confirm-desc">This erases your high score, best round, games played and last score. Your sound setting is kept. This can't be undone.</p>
+      <div class="modal-actions">
+        <button id="confirm-no" type="button" class="btn-ghost">Cancel</button>
+        <button id="confirm-yes" type="button" class="btn-danger">Erase data</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
