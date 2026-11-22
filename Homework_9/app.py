@@ -147,9 +147,11 @@ NICE_NAMES = {
 }
 
 
-def cached(key, fetch):
+def cached(key, fetch, is_good=lambda data: True):
     """Return a remembered answer if it is fresh; otherwise ask the API again.
-    If the API fails but we have an older answer, use the older answer."""
+    If the API fails but we have an older answer, use the older answer.
+    Answers that are not 'good' are sent but not remembered, so the next
+    visitor triggers a fresh try."""
     now = time.time()
     hit = _cache.get(key)
     if hit and now - hit[0] < CACHE_SECONDS:
@@ -160,7 +162,8 @@ def cached(key, fetch):
         if hit:
             return hit[1]
         raise
-    _cache[key] = (now, data)
+    if is_good(data):
+        _cache[key] = (now, data)
     return data
 
 
@@ -170,11 +173,35 @@ def fetch_json(url, params=None):
     return response.json()
 
 
+def load_population():
+    """Latest population for every country: {"COL": (53425635, "2025"), ...}.
+    Tries "most recent value" first; if that comes back empty, asks for the
+    last few years instead and keeps the newest number for each country."""
+    url = f"{WORLD_BANK}/country/all/indicator/SP.POP.TOTL"
+    attempts = [{"mrnev": 1, "per_page": 400}, {"date": "2019:2026", "per_page": 3000}]
+    for extra in attempts:
+        try:
+            answer = fetch_json(url, {"format": "json", **extra})
+        except Exception:
+            continue
+        rows = answer[1] if isinstance(answer, list) and len(answer) > 1 and answer[1] else []
+        latest = {}
+        for row in rows:
+            code, value, year = row.get("countryiso3code"), row.get("value"), row.get("date")
+            if code and value is not None and (code not in latest or year > latest[code][1]):
+                latest[code] = (value, year)
+        if latest:
+            return latest
+    return {}
+
+
+def has_population(delegates):
+    return any(d["population"] for d in delegates)
+
+
 def load_delegates():
     countries = fetch_json(f"{WORLD_BANK}/country", {"format": "json", "per_page": 400})[1]
-    population = fetch_json(f"{WORLD_BANK}/country/all/indicator/SP.POP.TOTL",
-                            {"format": "json", "per_page": 400, "mrnev": 1})[1] or []
-    pop_by_code = {row["countryiso3code"]: (row["value"], row["date"]) for row in population}
+    pop_by_code = load_population()
 
     delegates = []
     for c in countries:
@@ -199,7 +226,7 @@ def load_delegates():
 @app.route("/data/delegates")
 def data_delegates():
     try:
-        return jsonify(cached("delegates", load_delegates))
+        return jsonify(cached("delegates", load_delegates, has_population))
     except Exception:
         return jsonify({"error": "The World Bank could not be reached right now."}), 502
 
@@ -207,7 +234,7 @@ def data_delegates():
 @app.route("/data/briefing/<iso2>")
 def data_briefing(iso2):
     try:
-        delegates = cached("delegates", load_delegates)
+        delegates = cached("delegates", load_delegates, has_population)
     except Exception:
         return jsonify({"error": "No delegate list available."}), 502
     match = next((d for d in delegates if d["iso2"].upper() == iso2.upper()), None)
