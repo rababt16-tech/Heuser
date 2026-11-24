@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Pakistan Weather & Time · Homework 10</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=Bungee&family=Caveat:wght@600;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="embedded.css">
+</head>
+<body>
+  <a class="home-link" href="/">← Home</a>
+
+  <main class="page">
+
+    <!-- ============ TITLE + BIG BUTTON ============ -->
+    <section class="hero">
+      <span class="kicker">● HOMEWORK 10 · PROJECT 4 · ESP32 IN WOKWI</span>
+      <h1 class="title">LIVE PAKISTAN<br><span>WEATHER &amp; TIME</span></h1>
+      <p class="tech">Technology: <b>Wi-Fi</b>, and only Wi-Fi</p>
+      <div class="cta">
+        <!-- ▼▼ Paste your Wokwi share link here (the only place it lives) ▼▼ -->
+        <a class="big-btn" id="wokwiLink" href="https://wokwi.com/projects/YOUR-PROJECT-ID" target="_blank" rel="noopener">
+          <span class="play">▶</span> Open my circuit in Wokwi
+        </a>
+        <a class="ghost-btn" href="/">← Back to home</a>
+      </div>
+    </section>
+
+    <!-- ============ SCREENSHOT + EXPLANATION ============ -->
+    <section class="split">
+      <figure class="shot">
+        <img src="wokwi-screenshot.png" alt="Screenshot of the running Wokwi simulation with the Serial Monitor"
+             onerror="this.hidden=true;document.getElementById('shotMissing').hidden=false">
+        <div class="shot-missing" id="shotMissing" hidden>
+          <p class="big">SCREENSHOT GOES HERE</p>
+          <p>Save your Wokwi screenshot as <code>wokwi-screenshot.png</code> in the <code>embedded</code> folder.</p>
+        </div>
+        <figcaption>The simulation running in Wokwi, with the Serial Monitor showing live weather, Pakistan time and Wi-Fi status.</figcaption>
+      </figure>
+
+      <div class="explain">
+        <h2>The idea</h2>
+        <p>The ESP32 joins Wi-Fi, syncs Pakistan time from internet time servers (NTP), and fetches live weather for Karachi, Lahore and Islamabad from the Open-Meteo API in a single HTTPS request. At the same time it runs its own web server with an HTML dashboard where buttons switch between the three cities, and the same switch works by typing <code>1</code>, <code>2</code> or <code>3</code> in the Serial Monitor. Every message on the Serial Monitor is proof that the chip is really talking to the internet over Wi-Fi.</p>
+
+        <h2>Pushing Wi-Fi to its full extent</h2>
+        <p class="extent">Instead of connecting once, my ESP32 uses Wi-Fi in six ways: it scans nearby networks, connects and reacts to Wi-Fi events, syncs time over NTP, downloads JSON over HTTPS, serves its own web dashboard, and reconnects by itself with growing waits when the connection drops. I also tested the unusual cases on purpose: a command that cuts the Wi-Fi to prove it recovers, a broken API request to prove errors are handled safely, and retries that fall back from HTTPS to plain HTTP.</p>
+      </div>
+    </section>
+
+    <!-- ============ PARTS LIST ============ -->
+    <section>
+      <h2 class="section-title">Parts list</h2>
+      <div class="parts">
+        <div class="part hw"><b>ESP32 DevKit C v4</b><span>The only hardware part. Its built-in 2.4 GHz radio does everything.</span></div>
+        <div class="part"><b>Wokwi-GUEST network</b><span>Wokwi's open Wi-Fi network. No password, so nothing secret is in the code.</span></div>
+        <div class="part"><b>Open-Meteo API</b><span>Free live weather, no API key. One request returns all three cities.</span></div>
+        <div class="part"><b>NTP time servers</b><span>pool.ntp.org and time.google.com, set to Pakistan time (UTC+5).</span></div>
+        <div class="part"><b>ArduinoJson library</b><span>Reads the weather answer and builds the dashboard's JSON.</span></div>
+        <div class="part"><b>Serial Monitor</b><span>Proof of life, and where I type commands to control it.</span></div>
+      </div>
+    </section>
+
+    <!-- ============ LIVE PREVIEW OF THE ESP32 DASHBOARD ============ -->
+    <section class="preview-wrap">
+      <div class="preview-text">
+        <h2 class="section-title">Try the dashboard</h2>
+        <p>This is the same dashboard the ESP32 serves from its own web server. Opening the real one needs Wokwi's paid IoT Gateway, so this copy runs in your browser and fetches the same live data. Click a city:</p>
+        <p class="note">On the ESP32, each click also prints <code>CITY Switched to Lahore (from web browser)</code> in the Serial Monitor.</p>
+      </div>
+      <div class="device" id="device">
+        <div class="device-top"><span class="led"></span> ESP32 · LIVE PAKISTAN WEATHER</div>
+        <div class="clock" id="clock">--:--:-- PKT</div>
+        <div class="tabs" role="tablist">
+          <button type="button" data-city="0" class="on">Karachi</button>
+          <button type="button" data-city="1">Lahore</button>
+          <button type="button" data-city="2">Islamabad</button>
+        </div>
+        <div class="reading" id="reading">
+          <div class="temp" id="temp">--</div>
+          <div class="sky" id="sky">Connecting to Open-Meteo…</div>
+          <div class="grid">
+            <div><b>Feels like</b><span id="feels">–</span></div>
+            <div><b>Humidity</b><span id="hum">–</span></div>
+            <div><b>Wind</b><span id="wind">–</span></div>
+            <div><b>Today</b><span id="range">–</span></div>
+            <div><b>Sunrise</b><span id="rise">–</span></div>
+            <div><b>Sunset</b><span id="set">–</span></div>
+          </div>
+        </div>
+        <div class="device-error" id="previewError" hidden>
+          <p>Couldn't reach the weather service.</p>
+          <button type="button" id="retry">Try again</button>
+        </div>
+        <div class="device-foot" id="foot">1 request · 3 cities</div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section>
+      <h2 class="section-title">How it works</h2>
+      <svg class="diagram" viewBox="0 0 900 330" role="img" aria-label="Diagram: the ESP32 talks over Wi-Fi to the Wokwi-GUEST access point, which reaches Open-Meteo and NTP servers on the internet; a browser reaches the ESP32's web server through the Wokwi IoT Gateway; the Serial Monitor shows logs and sends commands.">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C8F560"/></marker>
+        </defs>
+        <!-- ESP32 -->
+        <rect x="40" y="110" width="200" height="110" rx="16" class="box hw"/>
+        <text x="140" y="150" class="label big on-lime">ESP32</text>
+        <text x="140" y="175" class="label on-lime">Wi-Fi radio · web server</text>
+        <text x="140" y="196" class="label on-lime">ArduinoJson · NTP client</text>
+        <!-- waves -->
+        <path class="wave" d="M262,150 q12,15 0,30"/><path class="wave w2" d="M276,140 q20,25 0,50"/><path class="wave w3" d="M290,130 q28,35 0,70"/>
+        <!-- access point -->
+        <rect x="330" y="125" width="170" height="80" rx="14" class="box"/>
+        <text x="415" y="160" class="label big2">Wokwi-GUEST</text>
+        <text x="415" y="183" class="label">open Wi-Fi · channel 6</text>
+        <!-- internet services -->
+        <rect x="610" y="30" width="250" height="70" rx="14" class="box"/>
+        <text x="735" y="60" class="label big2">Open-Meteo API</text>
+        <text x="735" y="82" class="label">HTTPS · JSON weather</text>
+        <rect x="610" y="130" width="250" height="70" rx="14" class="box"/>
+        <text x="735" y="160" class="label big2">NTP servers</text>
+        <text x="735" y="182" class="label">UDP · Pakistan time</text>
+        <rect x="610" y="230" width="250" height="70" rx="14" class="box pink"/>
+        <text x="735" y="260" class="label big2">Your browser</text>
+        <text x="735" y="282" class="label">via Wokwi IoT Gateway</text>
+        <!-- links -->
+        <path class="link" d="M500,150 C560,150 560,65 606,65" marker-end="url(#arrow)"/>
+        <path class="link" d="M500,165 L606,165" marker-end="url(#arrow)"/>
+        <path class="link back" d="M606,265 C450,265 300,265 150,224" marker-end="url(#arrow)"/>
+        <!-- serial monitor -->
+        <rect x="40" y="250" width="200" height="60" rx="12" class="box dark"/>
+        <text x="140" y="285" class="label mono">Serial Monitor</text>
+        <path class="link" d="M140,222 L140,246" marker-end="url(#arrow)"/>
+      </svg>
+      <ol class="steps">
+        <li><b>Scan</b>: on boot it lists every Wi-Fi network it can hear, with channel and signal.</li>
+        <li><b>Connect</b>: joins Wokwi-GUEST and listens to Wi-Fi events (connected, got IP, disconnected).</li>
+        <li><b>Time</b>: asks NTP servers for the time and converts it to Pakistan time.</li>
+        <li><b>Weather</b>: one HTTPS request gets all 3 cities. If it fails, it retries, then tries plain HTTP.</li>
+        <li><b>Serve</b>: hosts the dashboard and a small JSON API (<code>/api/weather</code>, <code>/api/status</code>).</li>
+        <li><b>Recover</b>: if Wi-Fi drops, it reconnects by itself, waiting 2 s, 4 s, 8 s … up to 30 s.</li>
+      </ol>
+    </section>
+
+    <!-- ============ SERIAL COMMANDS ============ -->
+    <section>
+      <h2 class="section-title">Try it in Wokwi</h2>
+      <p class="muted">Press ▶ in Wokwi, wait for the weather, then type these in the Serial Monitor and press Enter:</p>
+      <div class="commands">
+        <div><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> switch to Karachi, Lahore or Islamabad</div>
+        <div><kbd>a</kbd> compare all three cities</div>
+        <div><kbd>w</kbd> Wi-Fi status: signal, IP, request statistics</div>
+        <div><kbd>s</kbd> scan for Wi-Fi networks again</div>
+        <div><kbd>x</kbd> <b>test:</b> drop Wi-Fi and watch it reconnect</div>
+        <div><kbd>e</kbd> <b>test:</b> send a broken request and watch it recover</div>
+        <div><kbd>r</kbd> refresh weather now · <kbd>t</kbd> show the time · <kbd>h</kbd> help</div>
+      </div>
+    </section>
+
+    <!-- ============ OPTIONAL EMBED ============ -->
+    <section class="embed">
+      <h2 class="section-title">Run it right here</h2>
+      <p class="muted">Wokwi doesn't officially support embedding yet, so this may stay blank. If it does, use the big button at the top instead.</p>
+      <button type="button" class="ghost-btn" id="embedBtn">Try loading the live simulation</button>
+      <div class="embed-frame" id="embedFrame" hidden></div>
+    </section>
+
+    <p class="credits">Built for CS CRP · Heuser College · Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></p>
+  </main>
+
+  <script src="embedded.js"></script>
+</body>
+</html>

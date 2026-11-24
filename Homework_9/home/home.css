@@ -9,7 +9,7 @@
   --sky: #5BC8F5;
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; min-height: 100%; }
+html, body { margin: 0; min-height: 100%; overflow-x: hidden; }
 body {
   min-height: 100vh;
   display: grid; place-items: center;
@@ -28,7 +28,7 @@ body::before {
   background-size: 26px 26px;
 }
 
-.panel { position: relative; width: min(980px, 100%); text-align: center; }
+.panel { position: relative; width: min(1180px, 100%); text-align: center; }
 
 .hello {
   display: inline-block;
@@ -48,7 +48,7 @@ body::before {
 .sub { margin: 0 auto 44px; max-width: 46ch; font-size: clamp(16px, 2vw, 19px); line-height: 1.5; opacity: .85; animation: fade .6s .4s both; }
 
 /* the three big buttons */
-.buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
 .btn {
   --c: var(--lime);
   position: relative;
@@ -66,6 +66,7 @@ body::before {
 .btn:nth-child(1) { --c: var(--pink); animation-delay: .5s; }
 .btn:nth-child(2) { --c: var(--lime); animation-delay: .62s; }
 .btn:nth-child(3) { --c: var(--tang); animation-delay: .74s; }
+.btn:nth-child(4) { --c: var(--sky); animation-delay: .86s; }
 .btn:hover, .btn:focus-visible { transform: translateY(-6px) rotate(-1.5deg); box-shadow: 0 16px 0 rgba(0,0,0,.45), 0 0 0 4px var(--c); outline: none; }
 .btn:active { transform: translateY(6px); box-shadow: 0 3px 0 rgba(0,0,0,.45), 0 0 0 4px var(--c); }
 .btn .icon {
@@ -115,6 +116,9 @@ body::before {
 .btn.small { display: inline-flex; flex-direction: row; padding: 14px 24px; margin-top: 26px; animation-delay: .2s; }
 .btn.small .name { font-size: 18px; }
 
+@media (max-width: 1060px) {
+  .buttons { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 760px) {
   .buttons { grid-template-columns: 1fr; gap: 22px; }
   .btn { flex-direction: row; text-align: left; padding: 18px; }

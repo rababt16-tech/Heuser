@@ -5,7 +5,8 @@ Routes
   /            home page with three buttons          -> home/
   /game        Homework 6 game (a copy)               -> game/
   /portfolio   Homework 8 portfolio (a copy)          -> portfolio/
-  /api         NEW: "The Assembly" live data page     -> api/
+  /api         "The Assembly" live data page          -> api/
+  /embedded    NEW (Homework 10): ESP32 Wi-Fi project -> embedded/
 
 Data routes used by the /api page (the browser never talks to the APIs directly)
   /data/delegates             every country, from the World Bank API
@@ -113,6 +114,22 @@ def api_page():
 @app.route("/api/<path:filename>")
 def api_files(filename):
     return send_from_directory(folder("api"), filename)
+
+
+# Homework 10: the embedded (ESP32 / Wokwi) project page
+@app.route("/embedded")
+def embedded_redirect():
+    return redirect("/embedded/", code=301)
+
+
+@app.route("/embedded/")
+def embedded_page():
+    return send_from_directory(folder("embedded"), "index.html")
+
+
+@app.route("/embedded/<path:filename>")
+def embedded_files(filename):
+    return send_from_directory(folder("embedded"), filename)
 
 
 # ------------------------------------------------------------------
